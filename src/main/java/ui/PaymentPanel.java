@@ -17,6 +17,9 @@ public class PaymentPanel extends JPanel {
 
     private JButton addButton;
     private JButton deleteButton;
+    private JTextField searchField;
+    private JButton searchButton;
+    private JButton resetButton;
 
     private PaymentDAO paymentDAO;
 
@@ -38,11 +41,21 @@ public class PaymentPanel extends JPanel {
         addButton = new JButton("Add");
 
         deleteButton = new JButton("Delete");
+        searchField = new JTextField(15);
+
+        searchButton = new JButton("Search");
+
+        resetButton = new JButton("Reset");
 
 
         topPanel.add(addButton);
 
         topPanel.add(deleteButton);
+        topPanel.add(searchField);
+
+        topPanel.add(searchButton);
+
+        topPanel.add(resetButton);
 
 
         add(topPanel, BorderLayout.NORTH);
@@ -83,6 +96,9 @@ public class PaymentPanel extends JPanel {
         addButton.addActionListener(e -> addPayment());
 
         deleteButton.addActionListener(e -> deletePayment());
+        searchButton.addActionListener(e -> searchPayment());
+
+        resetButton.addActionListener(e -> loadPayments());
 
 
     }
@@ -259,6 +275,34 @@ public class PaymentPanel extends JPanel {
             paymentDAO.deletePayment(id);
 
             loadPayments();
+
+        }
+
+    }
+    private void searchPayment() {
+
+        String text = searchField.getText().toLowerCase();
+
+        model.setRowCount(0);
+
+        for (Payment payment : paymentDAO.getAllPayments()) {
+
+            if (String.valueOf(payment.getIdPayment()).contains(text)
+                    || String.valueOf(payment.getIdReservation()).contains(text)
+                    || payment.getMetoda().toLowerCase().contains(text)
+                    || payment.getDataPlata().toLowerCase().contains(text)) {
+
+                model.addRow(new Object[]{
+
+                        payment.getIdPayment(),
+                        payment.getIdReservation(),
+                        payment.getSuma(),
+                        payment.getDataPlata(),
+                        payment.getMetoda()
+
+                });
+
+            }
 
         }
 

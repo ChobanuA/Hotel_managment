@@ -20,6 +20,7 @@ public class ReservationPanel extends JPanel {
     private JTextField searchField;
     private JButton searchButton;
     private JButton resetButton;
+    private JButton editButton;
 
     private ReservationDAO reservationDAO;
 
@@ -50,6 +51,7 @@ public class ReservationPanel extends JPanel {
         searchButton = new JButton("Search");
 
         resetButton = new JButton("Reset");
+        editButton = new JButton("Edit");
 
 
 
@@ -61,6 +63,7 @@ public class ReservationPanel extends JPanel {
         topPanel.add(searchButton);
 
         topPanel.add(resetButton);
+        topPanel.add(editButton);
 
 
 
@@ -108,6 +111,7 @@ public class ReservationPanel extends JPanel {
         searchButton.addActionListener(e -> searchReservation());
 
         resetButton.addActionListener(e -> loadReservations());
+        editButton.addActionListener(e -> editReservation());
 
 
     }
@@ -321,6 +325,57 @@ public class ReservationPanel extends JPanel {
                 });
 
             }
+
+        }
+
+    }
+    private void editReservation() {
+
+        int selectedRow = table.getSelectedRow();
+
+        if(selectedRow == -1){
+
+            JOptionPane.showMessageDialog(this,"Select a reservation first!");
+            return;
+
+        }
+
+        int id = (int) model.getValueAt(selectedRow,0);
+
+        JTextField clientField = new JTextField(model.getValueAt(selectedRow,1).toString());
+        JTextField roomField = new JTextField(model.getValueAt(selectedRow,2).toString());
+        JTextField checkInField = new JTextField(model.getValueAt(selectedRow,3).toString());
+        JTextField checkOutField = new JTextField(model.getValueAt(selectedRow,4).toString());
+
+        Object[] message = {
+
+                "Client ID:", clientField,
+                "Room ID:", roomField,
+                "Check In:", checkInField,
+                "Check Out:", checkOutField
+
+        };
+
+        int option = JOptionPane.showConfirmDialog(
+                this,
+                message,
+                "Edit Reservation",
+                JOptionPane.OK_CANCEL_OPTION
+        );
+
+        if(option == JOptionPane.OK_OPTION){
+
+            Reservation reservation = new Reservation();
+
+            reservation.setIdReservation(id);
+            reservation.setIdClient(Integer.parseInt(clientField.getText()));
+            reservation.setIdCamera(Integer.parseInt(roomField.getText()));
+            reservation.setDataCheckIn(checkInField.getText());
+            reservation.setDataCheckOut(checkOutField.getText());
+
+            reservationDAO.updateReservation(reservation);
+
+            loadReservations();
 
         }
 

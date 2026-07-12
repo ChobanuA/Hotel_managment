@@ -20,6 +20,7 @@ public class PaymentPanel extends JPanel {
     private JTextField searchField;
     private JButton searchButton;
     private JButton resetButton;
+    private JButton editButton;
 
     private PaymentDAO paymentDAO;
 
@@ -50,6 +51,7 @@ public class PaymentPanel extends JPanel {
         searchButton = new JButton("Search");
 
         resetButton = new JButton("Reset");
+        editButton = new JButton("Edit");
 
 
         topPanel.add(addButton);
@@ -60,6 +62,7 @@ public class PaymentPanel extends JPanel {
         topPanel.add(searchButton);
 
         topPanel.add(resetButton);
+        topPanel.add(editButton);
 
 
         add(topPanel, BorderLayout.NORTH);
@@ -105,6 +108,7 @@ public class PaymentPanel extends JPanel {
         searchButton.addActionListener(e -> searchPayment());
 
         resetButton.addActionListener(e -> loadPayments());
+        editButton.addActionListener(e -> editPayment());
 
 
     }
@@ -313,6 +317,73 @@ public class PaymentPanel extends JPanel {
                 });
 
             }
+
+        }
+
+    }
+    private void editPayment() {
+
+        int selectedRow = table.getSelectedRow();
+
+        if (selectedRow == -1) {
+
+            JOptionPane.showMessageDialog(this,
+                    "Select a payment first!");
+
+            return;
+
+        }
+
+        int id = (int) model.getValueAt(selectedRow, 0);
+
+        JTextField reservationField = new JTextField(
+                model.getValueAt(selectedRow, 1).toString());
+
+        JTextField sumaField = new JTextField(
+                model.getValueAt(selectedRow, 2).toString());
+
+        JTextField dataField = new JTextField(
+                model.getValueAt(selectedRow, 3).toString());
+
+        JTextField metodaField = new JTextField(
+                model.getValueAt(selectedRow, 4).toString());
+
+
+        Object[] message = {
+
+                "Reservation ID:", reservationField,
+                "Suma:", sumaField,
+                "Data plata:", dataField,
+                "Metoda:", metodaField
+
+        };
+
+
+        int option = JOptionPane.showConfirmDialog(
+                this,
+                message,
+                "Edit Payment",
+                JOptionPane.OK_CANCEL_OPTION
+        );
+
+
+        if (option == JOptionPane.OK_OPTION) {
+
+            Payment payment = new Payment();
+
+            payment.setIdPayment(id);
+            payment.setIdReservation(
+                    Integer.parseInt(reservationField.getText()));
+            payment.setSuma(
+                    Double.parseDouble(sumaField.getText()));
+            payment.setDataPlata(
+                    dataField.getText());
+            payment.setMetoda(
+                    metodaField.getText());
+
+            paymentDAO.updatePayment(payment);
+
+            loadPayments();
 
         }
 

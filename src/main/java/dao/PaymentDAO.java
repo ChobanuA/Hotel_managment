@@ -126,5 +126,25 @@ public class PaymentDAO {
 
 
     }
+    public void updatePayment(Payment payment){
+
+        String sql = "UPDATE PLATA SET id_rezervare=?, suma=?, data_plata=?, metoda=? WHERE id_plata=?";
+
+        try(Connection connection = DBConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)){
+
+            statement.setInt(1,payment.getIdReservation());
+            statement.setDouble(2,payment.getSuma());
+            statement.setString(3,payment.getDataPlata());
+            statement.setString(4,payment.getMetoda());
+            statement.setInt(5,payment.getIdPayment());
+
+            statement.executeUpdate();
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+
+    }
 
 }

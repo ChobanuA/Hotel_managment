@@ -121,5 +121,25 @@ public class ReservationDAO {
 
 
     }
+    public void updateReservation(Reservation reservation) {
+
+        String sql = "UPDATE REZERVARE SET id_client=?, id_camera=?, data_checkin=?, data_checkout=? WHERE id_rezervare=?";
+
+        try(Connection connection = DBConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)){
+
+            statement.setInt(1, reservation.getIdClient());
+            statement.setInt(2, reservation.getIdCamera());
+            statement.setString(3, reservation.getDataCheckIn());
+            statement.setString(4, reservation.getDataCheckOut());
+            statement.setInt(5, reservation.getIdReservation());
+
+            statement.executeUpdate();
+
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+
+    }
 
 }

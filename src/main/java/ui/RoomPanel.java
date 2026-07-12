@@ -19,6 +19,7 @@ public class RoomPanel extends JPanel {
     private JTextField searchField;
     private JButton searchButton;
     private JButton resetButton;
+    private JComboBox<String> filterBox;
 
     private RoomDAO roomDAO;
 
@@ -44,6 +45,11 @@ public class RoomPanel extends JPanel {
         searchField = new JTextField(15);
         searchButton = new JButton("Search");
         resetButton = new JButton("Reset");
+        filterBox = new JComboBox<>();
+
+        filterBox.addItem("All");
+        filterBox.addItem("Libera");
+        filterBox.addItem("Ocupata");
 
 
 
@@ -53,6 +59,8 @@ public class RoomPanel extends JPanel {
         topPanel.add(searchField);
         topPanel.add(searchButton);
         topPanel.add(resetButton);
+        topPanel.add(new JLabel("Filter:"));
+        topPanel.add(filterBox);
 
 
 
@@ -97,6 +105,7 @@ public class RoomPanel extends JPanel {
         searchButton.addActionListener(e -> searchRoom());
 
         resetButton.addActionListener(e -> loadRooms());
+        filterBox.addActionListener(e -> filterRooms());
 
     }
 
@@ -378,6 +387,32 @@ public class RoomPanel extends JPanel {
                         room.getTip(),
                         room.getPret(),
                         room.getStatus()
+                });
+
+            }
+
+        }
+
+    }
+    private void filterRooms() {
+
+        String selected = filterBox.getSelectedItem().toString();
+
+        model.setRowCount(0);
+
+        for (Room room : roomDAO.getAllRooms()) {
+
+            if (selected.equals("All")
+                    || room.getStatus().equalsIgnoreCase(selected)) {
+
+                model.addRow(new Object[]{
+
+                        room.getIdRoom(),
+                        room.getNumar(),
+                        room.getTip(),
+                        room.getPret(),
+                        room.getStatus()
+
                 });
 
             }

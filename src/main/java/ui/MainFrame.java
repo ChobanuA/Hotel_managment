@@ -81,9 +81,20 @@ public class MainFrame extends JFrame {
 
         logoutButton.addActionListener(e -> {
 
-            dispose();
+            int option = JOptionPane.showConfirmDialog(
+                    this,
+                    "Do you want to logout?",
+                    "Logout",
+                    JOptionPane.YES_NO_OPTION
+            );
 
-            new LoginFrame();
+            if(option == JOptionPane.YES_OPTION){
+
+                dispose();
+
+                new LoginFrame();
+
+            }
 
         });
 

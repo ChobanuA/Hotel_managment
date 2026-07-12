@@ -37,7 +37,11 @@ public class PaymentPanel extends JPanel {
 
         JPanel topPanel = new JPanel(new FlowLayout());
 
+        JLabel title = new JLabel("Payments");
+        title.setHorizontalAlignment(SwingConstants.CENTER);
+        title.setFont(new Font("Arial", Font.BOLD, 24));
 
+        add(title, BorderLayout.SOUTH);
         addButton = new JButton("Add");
 
         deleteButton = new JButton("Delete");
@@ -79,7 +83,9 @@ public class PaymentPanel extends JPanel {
 
 
         table = new JTable(model);
-
+        table.setDefaultEditor(Object.class, null);
+        table.setAutoCreateRowSorter(true);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 
         JScrollPane scrollPane = new JScrollPane(table);
@@ -243,6 +249,8 @@ public class PaymentPanel extends JPanel {
 
 
             loadPayments();
+            JOptionPane.showMessageDialog(this,
+                    "Operation completed successfully!");
 
 
         }
@@ -275,6 +283,8 @@ public class PaymentPanel extends JPanel {
             paymentDAO.deletePayment(id);
 
             loadPayments();
+            JOptionPane.showMessageDialog(this,
+                    "Operation completed successfully!");
 
         }
 

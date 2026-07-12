@@ -37,7 +37,11 @@ public class ReservationPanel extends JPanel {
 
         JPanel topPanel = new JPanel(new FlowLayout());
 
+        JLabel title = new JLabel("Reservations");
+        title.setHorizontalAlignment(SwingConstants.CENTER);
+        title.setFont(new Font("Arial", Font.BOLD, 24));
 
+        add(title, BorderLayout.SOUTH);
         addButton = new JButton("Add");
 
         deleteButton = new JButton("Delete");
@@ -81,6 +85,9 @@ public class ReservationPanel extends JPanel {
 
 
         table = new JTable(model);
+        table.setDefaultEditor(Object.class, null);
+        table.setAutoCreateRowSorter(true);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 
 
@@ -243,6 +250,8 @@ public class ReservationPanel extends JPanel {
 
 
             loadReservations();
+            JOptionPane.showMessageDialog(this,
+                    "Operation completed successfully!");
 
         }
 
@@ -281,6 +290,8 @@ public class ReservationPanel extends JPanel {
 
 
             loadReservations();
+            JOptionPane.showMessageDialog(this,
+                    "Operation completed successfully!");
 
         }
 

@@ -33,7 +33,11 @@ public class RoomPanel extends JPanel {
 
         JPanel topPanel = new JPanel(new FlowLayout());
 
+        JLabel title = new JLabel("Clients");
+        title.setHorizontalAlignment(SwingConstants.CENTER);
+        title.setFont(new Font("Arial", Font.BOLD, 24));
 
+        add(title, BorderLayout.SOUTH);
         addButton = new JButton("Add");
         editButton = new JButton("Edit");
         deleteButton = new JButton("Delete");
@@ -69,6 +73,9 @@ public class RoomPanel extends JPanel {
 
 
         table = new JTable(model);
+        table.setDefaultEditor(Object.class, null);
+        table.setAutoCreateRowSorter(true);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 
         JScrollPane scrollPane = new JScrollPane(table);
@@ -196,6 +203,8 @@ public class RoomPanel extends JPanel {
 
 
             loadRooms();
+            JOptionPane.showMessageDialog(this,
+                    "Operation completed successfully!");
 
         }
 
@@ -234,6 +243,8 @@ public class RoomPanel extends JPanel {
 
 
             loadRooms();
+            JOptionPane.showMessageDialog(this,
+                    "Operation completed successfully!");
 
         }
 
@@ -343,6 +354,8 @@ public class RoomPanel extends JPanel {
 
 
             loadRooms();
+            JOptionPane.showMessageDialog(this,
+                    "Operation completed successfully!");
 
         }
 

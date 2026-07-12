@@ -12,8 +12,11 @@ public class MainFrame extends JFrame {
     private JButton reservationButton;
     private JButton paymentButton;
     private JButton logoutButton;
+    private String role;
 
-    public MainFrame() {
+    public MainFrame(String role) {
+
+        this.role = role;
 
         setTitle("Hotel Management System");
         setSize(1000, 650);
@@ -36,9 +39,18 @@ public class MainFrame extends JFrame {
         menuPanel.add(roomButton);
         menuPanel.add(reservationButton);
         menuPanel.add(paymentButton);
+        if(role.equalsIgnoreCase("ADMIN")){
+
+            JButton usersButton = new JButton("Users");
+
+            menuPanel.add(usersButton);
+
+        }
         menuPanel.add(logoutButton);
 
+
         contentPanel = new JPanel(new BorderLayout());
+
 
         JLabel welcomeLabel = new JLabel(
                 "Welcome to Hotel Management System",
@@ -52,6 +64,7 @@ public class MainFrame extends JFrame {
         add(contentPanel, BorderLayout.CENTER);
 
         initEvents();
+        setTitle("Hotel Management System - " + role);
 
         setVisible(true);
     }
@@ -62,13 +75,9 @@ public class MainFrame extends JFrame {
 
         roomButton.addActionListener(e -> showRooms());
 
-        reservationButton.addActionListener(e ->
-                JOptionPane.showMessageDialog(this,
-                        "Reservations module coming soon"));
+        reservationButton.addActionListener(e -> showReservations());
 
-        paymentButton.addActionListener(e ->
-                JOptionPane.showMessageDialog(this,
-                        "Payments module coming soon"));
+        paymentButton.addActionListener(e -> showPayments());
 
         logoutButton.addActionListener(e -> {
 
@@ -102,4 +111,27 @@ public class MainFrame extends JFrame {
         contentPanel.repaint();
 
     }
+    private void showReservations(){
+
+        contentPanel.removeAll();
+
+        contentPanel.add(new ReservationPanel(), BorderLayout.CENTER);
+
+        contentPanel.revalidate();
+
+        contentPanel.repaint();
+
+    }
+    private void showPayments() {
+
+        contentPanel.removeAll();
+
+        contentPanel.add(new PaymentPanel(), BorderLayout.CENTER);
+
+        contentPanel.revalidate();
+
+        contentPanel.repaint();
+
+    }
+
 }

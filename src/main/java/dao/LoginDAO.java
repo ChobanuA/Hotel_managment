@@ -9,9 +9,9 @@ import java.sql.SQLException;
 
 public class LoginDAO {
 
-    public boolean login(String username, String password) {
+    public String login(String username, String password) {
 
-        String sql = "SELECT * FROM UTILIZATOR WHERE username=? AND parola=?";
+        String sql = "SELECT rol FROM UTILIZATOR WHERE username=? AND parola=?";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -21,12 +21,17 @@ public class LoginDAO {
 
             ResultSet rs = statement.executeQuery();
 
-            return rs.next();
+            if (rs.next()) {
+                return rs.getString("rol");
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return false;
+        return null;
     }
+
+
+
 }

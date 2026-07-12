@@ -16,8 +16,12 @@ public class RoomPanel extends JPanel {
     private JButton addButton;
     private JButton editButton;
     private JButton deleteButton;
+    private JTextField searchField;
+    private JButton searchButton;
+    private JButton resetButton;
 
     private RoomDAO roomDAO;
+
 
 
     public RoomPanel() {
@@ -33,11 +37,19 @@ public class RoomPanel extends JPanel {
         addButton = new JButton("Add");
         editButton = new JButton("Edit");
         deleteButton = new JButton("Delete");
+        searchField = new JTextField(15);
+        searchButton = new JButton("Search");
+        resetButton = new JButton("Reset");
+
 
 
         topPanel.add(addButton);
         topPanel.add(editButton);
         topPanel.add(deleteButton);
+        topPanel.add(searchField);
+        topPanel.add(searchButton);
+        topPanel.add(resetButton);
+
 
 
         add(topPanel, BorderLayout.NORTH);
@@ -75,6 +87,9 @@ public class RoomPanel extends JPanel {
         deleteButton.addActionListener(e -> deleteRoom());
 
         editButton.addActionListener(e -> editRoom());
+        searchButton.addActionListener(e -> searchRoom());
+
+        resetButton.addActionListener(e -> loadRooms());
 
     }
 
@@ -98,6 +113,7 @@ public class RoomPanel extends JPanel {
                     room.getTip(),
                     room.getPret(),
                     room.getStatus()
+
 
             });
 
@@ -264,6 +280,7 @@ public class RoomPanel extends JPanel {
 
 
 
+
         Object[] message = {
 
                 "Numar:",
@@ -330,6 +347,30 @@ public class RoomPanel extends JPanel {
         }
 
     }
+    private void searchRoom() {
 
+        String text = searchField.getText().toLowerCase();
+
+        model.setRowCount(0);
+
+        for (Room room : roomDAO.getAllRooms()) {
+
+            if (String.valueOf(room.getNumar()).contains(text)
+                    || room.getTip().toLowerCase().contains(text)
+                    || room.getStatus().toLowerCase().contains(text)) {
+
+                model.addRow(new Object[]{
+                        room.getIdRoom(),
+                        room.getNumar(),
+                        room.getTip(),
+                        room.getPret(),
+                        room.getStatus()
+                });
+
+            }
+
+        }
+
+    }
 
 }

@@ -48,9 +48,12 @@ public class LoginFrame extends JFrame {
 
         LoginDAO loginDAO = new LoginDAO();
 
-        if (loginDAO.login(username, password)) {
+        String role = loginDAO.login(username, password);
 
-            new MainFrame();
+        if (role != null) {
+
+            new MainFrame(role);
+
             dispose();
 
         } else {

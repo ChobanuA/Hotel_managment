@@ -60,9 +60,7 @@ public class MainFrame extends JFrame {
 
         clientButton.addActionListener(e -> showClients());
 
-        roomButton.addActionListener(e ->
-                JOptionPane.showMessageDialog(this,
-                        "Rooms module coming soon"));
+        roomButton.addActionListener(e -> showRooms());
 
         reservationButton.addActionListener(e ->
                 JOptionPane.showMessageDialog(this,
@@ -93,5 +91,15 @@ public class MainFrame extends JFrame {
         contentPanel.repaint();
 
     }
+    private void showRooms(){
 
+        contentPanel.removeAll();
+
+        contentPanel.add(new RoomPanel(), BorderLayout.CENTER);
+
+        contentPanel.revalidate();
+
+        contentPanel.repaint();
+
+    }
 }
